@@ -68,7 +68,7 @@ TABLE_INVENTSUM = 'dbo.inventsum'
 TABLE_INVENTDIM = 'dbo.inventdim'
 TABLE_INVENTTABLE = 'dbo.inventtable'
 TABLE_INVENTITEMPRICE = 'dbo.inventitemprice'
-ROOT_FOLDER = Path(__file__).parent
+ROOT_FOLDER = Path(__file__).parent 
 WB_REPORT_PATH = ROOT_FOLDER / 'Relatório de Estoque.xlsx'
 
 dep01, dep02, dep03, dep04, dep11, dep12, dep13, dep14, dep15 = 0, 0, 0, 0, 0, 0, 0, 0, 0
