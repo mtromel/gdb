@@ -1,3 +1,35 @@
+"""
+Este módulo contém funções para realizar consulta a banco de dados,
+tratamento dos dados da consulta e exportação dos dados tratados para Excel.
+
+Autor: Marcos Trömel
+E-mail: marcos.tromel@gmail.com
+Data de criação: 21/08/2024
+
+Licença: MIT License
+
+Copyright (c) 2024 Marcos Trömel
+
+Permissão é concedida, gratuitamente, a qualquer pessoa que obtenha uma cópia
+deste software e de seus arquivos de documentação associados (o "Software"),
+para lidar com o Software sem restrições, incluindo, sem limitação, os direitos
+de usar, copiar, modificar, mesclar, publicar, distribuir, sublicenciar, e/ou
+vender cópias do Software, e de permitir que pessoas a quem o Software seja
+fornecido o façam, sob as seguintes condições:
+
+O aviso de copyright acima e este aviso de permissão devem ser incluídos em
+todas as cópias ou partes substanciais do Software.
+
+O SOFTWARE É FORNECIDO "TAL COMO ESTÁ", SEM GARANTIA DE QUALQUER TIPO, EXPRESSA
+OU IMPLÍCITA, INCLUINDO, MAS NÃO SE LIMITANDO A, GARANTIAS DE COMERCIALIZAÇÃO E
+ADEQUAÇÃO A UMA FINALIDADE ESPECÍFICA. EM NENHUM CASO OS AUTORES OU DETENTORES
+DE DIREITOS AUTORAIS SERÃO RESPONSÁVEIS POR QUALQUER REIVINDICAÇÃO, DANOS OU
+OUTRA RESPONSABILIDADE, SEJA EM UMA AÇÃO CONTRATUAL, DELITO OU OUTRA,
+DECORRENTES DE, OU EM CONEXÃO COM O SOFTWARE OU O USO OU OUTRAS NEGOCIAÇÕES NO
+SOFTWARE.
+"""
+
+
 from datetime import datetime
 from pytz import timezone
 from pathlib import Path
