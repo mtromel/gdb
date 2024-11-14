@@ -105,10 +105,10 @@ invent_sum = [
 
 # String de conexão com o banco de dados
 conn = pyodbc.connect('Driver={SQL Server};'
-                      'Server=vservaxprodsql;'
-                      'Database=DynamicsAxProd;'
-                      'UID=sistemas;'
-                      'PWD=GdB123')
+                      'Server="CHANGE-ME";'
+                      'Database="CHANGE-ME";'
+                      'UID="CHANGE-ME";'
+                      'PWD="CHANGE-ME"')
 
 # Criar um objeto cursor
 cursor = conn.cursor()
