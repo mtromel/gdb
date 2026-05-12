@@ -31,6 +31,7 @@ SOFTWARE.
 
 
 from datetime import datetime
+from dotenv import load_dotenv
 from pytz import timezone
 from pathlib import Path
 from openpyxl import Workbook
@@ -39,6 +40,7 @@ from openpyxl.worksheet.worksheet import Worksheet
 from openpyxl.styles import Border, Side, Alignment, Font, PatternFill
 from openpyxl.worksheet.cell_range import CellRange
 import pyodbc
+import os
 
 def set_border(ws, cell_range):
     thin = Side(border_style="thin", color="000000")
@@ -96,10 +98,16 @@ def set_style_color_yellow(ws, cell_range):
         for cell in row:
             cell.fill = PatternFill('solid', fgColor='00FFFF99')
 
-TABLE_INVENTSUM = 'dbo.inventsum'
-TABLE_INVENTDIM = 'dbo.inventdim'
-TABLE_INVENTTABLE = 'dbo.inventtable'
-TABLE_INVENTITEMPRICE = 'dbo.inventitemprice'
+load_dotenv()
+
+TABLE_INVENTSUM = os.getenv('INVENTSUM')
+TABLE_INVENTDIM = os.getenv('INVENTDIM')
+TABLE_INVENTTABLE = os.getenv('INVENTTABLE')
+TABLE_INVENTITEMPRICE = os.getenv('INVENTITEMPRICE')
+SERVERNAME = os.getenv('DB_SERVERNAME')
+DATABASENAME = os.getenv('DB_DATABASENAME')
+USERID = os.getenv('DB_USERID')
+PASSWORD = os.getenv('DB_PASSWORD')
 ROOT_FOLDER = Path(__file__).parent 
 WB_REPORT_PATH = ROOT_FOLDER / 'Relatório de Estoque.xlsx'
 
@@ -136,17 +144,18 @@ invent_sum = [
 ]
 
 # String de conexão com o banco de dados
-conn = pyodbc.connect('Driver={SQL Server};'
-                      'Server="CHANGE-ME";'
-                      'Database="CHANGE-ME";'
-                      'UID="CHANGE-ME";'
-                      'PWD="CHANGE-ME"')
+conn = pyodbc.connect(f'Driver={{SQL Server}};'
+                      f'Server={SERVERNAME};'
+                      f'Database={DATABASENAME};'
+                      f'UID={USERID};'
+                      f'PWD={PASSWORD};'
+                      )
 
 # Criar um objeto cursor
 cursor = conn.cursor()
 
 # Consulta SQL
-query = f"SELECT I.ITEMID, IT.ITEMNAME, D.INVENTLOCATIONID, D.WMSLOCATIONID, I.PHYSICALINVENT, P.UNITID, P.PRICE, I.PHYSICALINVENT * P.PRICE AS TOTAL FROM {TABLE_INVENTSUM} AS I LEFT JOIN {TABLE_INVENTDIM} AS D ON I.INVENTDIMID = D.INVENTDIMID LEFT JOIN {TABLE_INVENTTABLE} AS IT ON I.ITEMID = IT.ITEMID LEFT JOIN {TABLE_INVENTITEMPRICE} AS P ON I.ITEMID = P.ITEMID WHERE I.PHYSICALINVENT > 0 AND I.DATAAREAID = 'gsb' AND D.DATAAREAID = 'gsb' AND P.VERSIONID = ' ' AND P.PRICETYPE = '0' AND P.DATAAREAID = 'gsb'"
+query = f"SELECT DISTINCT I.ITEMID, IT.ITEMNAME, D.INVENTLOCATIONID, D.WMSLOCATIONID, I.PHYSICALINVENT, P.UNITID, P.PRICE, I.PHYSICALINVENT * P.PRICE AS TOTAL FROM {TABLE_INVENTSUM} AS I LEFT JOIN {TABLE_INVENTDIM} AS D ON I.INVENTDIMID = D.INVENTDIMID LEFT JOIN {TABLE_INVENTTABLE} AS IT ON I.ITEMID = IT.ITEMID LEFT JOIN {TABLE_INVENTITEMPRICE} AS P ON I.ITEMID = P.ITEMID WHERE I.PHYSICALINVENT > 0 AND I.DATAAREAID = 'gsb' AND D.DATAAREAID = 'gsb' AND P.VERSIONID = ' ' AND P.PRICETYPE = '0' AND P.DATAAREAID = 'gsb'"
 cursor.execute(query)
 
 # Carregando o arquivo do Excel
