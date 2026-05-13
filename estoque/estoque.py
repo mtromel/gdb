@@ -133,7 +133,7 @@ class GerarRelatorioEstoque():
                 
             wb.save(path)
 
-        load_dotenv()
+        load_dotenv(resource_path('.env'))
 
         TABLE_INVENTSUM = os.getenv('INVENTSUM')
         TABLE_INVENTDIM = os.getenv('INVENTDIM')
@@ -342,6 +342,12 @@ class GerarRelatorioEstoque():
         wb_report.save(WB_REPORT_PATH)
         set_column(WB_REPORT_PATH, sheet_name_report, sheet_name_report_sum)
         conn.close()
+
+
+def resource_path(relative_path):
+    if hasattr(sys, '_MEIPASS'):
+        return os.path.join(sys._MEIPASS, relative_path)
+    return os.path.join(os.path.abspath("."), relative_path)
 
 if __name__ == "__main__":
     GerarRelatorioEstoque()

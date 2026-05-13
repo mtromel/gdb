@@ -9,7 +9,6 @@ class RelatorioWorker(QObject):
     progress = Signal(int)
 
     def executar(self):
-        from estoque import GerarRelatorioEstoque
 
         self.progress.emit(10)
         relatorio = GerarRelatorioEstoque()
