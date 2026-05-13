@@ -40,8 +40,9 @@ from openpyxl.worksheet.worksheet import Worksheet
 from openpyxl.styles import Border, Side, Alignment, Font, PatternFill
 from openpyxl.utils import get_column_letter
 from openpyxl.worksheet.cell_range import CellRange
-import pyodbc
 import os
+import pyodbc
+import sys
 
 
 class GerarRelatorioEstoque():
@@ -142,7 +143,12 @@ class GerarRelatorioEstoque():
         DATABASENAME = os.getenv('DB_DATABASENAME')
         USERID = os.getenv('DB_USERID')
         PASSWORD = os.getenv('DB_PASSWORD')
-        ROOT_FOLDER = Path(__file__).parent 
+        
+        if getattr(sys, 'frozen', False):
+            ROOT_FOLDER = Path(sys.executable).parent
+        else:
+            ROOT_FOLDER = Path(__file__).parent 
+
         WB_REPORT_PATH = ROOT_FOLDER / 'Relatório de Estoque.xlsx'
 
         dep01, dep02, dep03, dep04, dep11, dep12, dep13, dep14, dep15 = 0, 0, 0, 0, 0, 0, 0, 0, 0
